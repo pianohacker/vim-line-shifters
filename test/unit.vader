@@ -1,0 +1,50 @@
+Given:
+  abc
+    def
+
+    ghi
+  jkl
+
+Execute (DelEmptyLineAbove):
+  4
+  call line_shifters#DelEmptyLineAbove()
+
+Expect:
+  abc
+    def
+    ghi
+  jkl
+
+Execute (AddEmptyLineAbove):
+  2
+  call line_shifters#AddEmptyLineAbove()
+
+Expect:
+  abc
+
+    def
+
+    ghi
+  jkl
+
+Execute (DelEmptyLineBelow):
+  2
+  call line_shifters#DelEmptyLineBelow()
+
+Expect:
+  abc
+    def
+    ghi
+  jkl
+
+Execute (AddEmptyLineBelow):
+  4
+  call line_shifters#AddEmptyLineBelow()
+
+Expect:
+  abc
+    def
+
+    ghi
+
+  jkl

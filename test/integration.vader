@@ -1,0 +1,22 @@
+Given:
+  abc
+    def
+
+    ghi
+  jkl
+
+Before:
+  map ,j <Plug>(line-shifters-del-empty-below)
+  map ,K <Plug>(line-shifters-add-empty-above)
+
+Do:
+  2G
+  ,j
+  ,K
+
+Expect:
+  abc
+
+    def
+    ghi
+  jkl

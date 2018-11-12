@@ -1,0 +1,36 @@
+#!/bin/bash
+set -eu
+
+cd $(dirname $0)
+
+mkdir -p deps
+pushd deps > /dev/null
+	for dependency in junegunn/vader.vim; do
+		if [[ ! -d $(basename $dependency) ]]; then
+			git clone https://github.com/$dependency
+		fi
+	done
+popd > /dev/null
+
+function run_tests {
+	local editor_to_test=$1
+
+	if [[ ! -x $(command which $editor_to_test) ]]; then
+		echo "$editor_to_test not installed, skipping..."
+		return
+	fi
+
+	echo "Testing ${editor_to_test}..."
+
+	export VADER_OUTPUT_FILE=$(mktemp)
+	# The `command which` bypasses any aliases.
+	if ! $(command which $editor_to_test) -u test.vimrc '+Vader!*'; then
+		cat $VADER_OUTPUT_FILE
+		exit
+	fi
+
+	rm $VADER_OUTPUT_FILE
+}
+
+run_tests nvim
+run_tests vim
