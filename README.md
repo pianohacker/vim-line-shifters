@@ -1,75 +1,38 @@
-# vim-indented-paragraph
+# vim-line-shifters
 
-Provides text objects and movements for indented paragraphs.
+Provides mappings to move lines by creating and deleting empty lines above/below the current line.
 
-Text objects:
+Mappable commands:
+`<Plug>(line-shifters-del-empty-above)` - Removes an empty line above the cursor, if one exists.
+`<Plug>(line-shifters-add-empty-above)` - Adds an empty line above the cursor.
+`<Plug>(line-shifters-del-empty-below)` - Removes an empty line below the cursor, if one exists.
+`<Plug>(line-shifters-add-empty-below)` - Adds an empty line below the cursor.
 
-* `ir` - current paragraph, indented same or more than current line
-* `ar` - same as above, including surrounding empty lines
+## Suggested Mappings
 
-Movements:
+```vim
+nmap <Up> <Plug>(line-shifters-del-empty-above)
+nmap <Down> <Plug>(line-shifters-add-empty-above)
+nmap <C-Up> <Plug>(line-shifters-del-empty-below)
+nmap <C-Down> <Plug>(line-shifters-add-empty-below)
 
-* `g)` - move to the next beginning of an indented paragraph
-* `g(` - move to the previous beginning of an indented paragraph
+imap <Up> <Plug>(line-shifters-del-empty-above)
+imap <Down> <Plug>(line-shifters-add-empty-above)
+imap <C-Up> <Plug>(line-shifters-del-empty-below)
+imap <C-Down> <Plug>(line-shifters-add-empty-below)
+```
+
+These also mesh quite nicely with using the left and right arrow keys for indentation:
+```vim
+nnoremap <Left> <<
+nnoremap <Right> >>
+inoremap <silent> <Left> <C-D>
+inoremap <silent> <Right> <C-T>
+```
 
 ## Examples
 
-### Text Objects
-
-Given the following code (with the cursor at `|`):
-
-```
-if (condition) {
-    result = operation();|
-    if (!result) return false;
-
-    operation2();
-}
-```
-
-`dir` will result in:
-
-```
-if (condition) {
-
-    operation2();
-}
-```
-
-and `dar` will result in:
-
-```
-if (condition) {
-    operation2();
-}
-```
-
-Note that `dar` in a block with empty lines on both sides will leave empty
-lines behind; given:
-
-```
-if (a) {
-    b();
-
-    c();|
-
-    d();
-}
-```
-
-`dar` will result in:
-
-```
-if (a) {
-    b();
-
-    d();
-}
-```
-
-### Movement
-
-Given the following code (with the cursor at `|`):
+Given the following code (with the suggested mappings and with the cursor at `|`):
 
 ```
 if (condition) {
@@ -80,24 +43,24 @@ if (condition) {
 }
 ```
 
-`g)` will move to:
+`<Down>` will result in:
 
 ```
 if (condition) {
     result = operation();
-    if (!result) return false;
 
-    |operation2();
+    if (!result) return false;|
+
+    operation2();
 }
 ```
 
-and `g(` will move to:
+and `<C-Up>` will result in:
 
 ```
 if (condition) {
-    |result = operation();
-    if (!result) return false;
-
+    result = operation();
+    if (!result) return false;|
     operation2();
 }
 ```
@@ -105,25 +68,27 @@ if (condition) {
 ## Dependencies
 
 - NeoVim or Vim 7.3+
-- [vim-textobj-user][vim-textobj-user]
 
 ## Installation
 
 First, add the necessary line to your `vimrc`:
 
-- [Vundle][vundle] - `Bundle 'pianohacker/vim-indented-paragraph'`
-- [NeoBundle][neobundle] - `NeoBundle 'pianohacker/vim-indented-paragraph'`
-- [dein][dein] - `call dein#add('pianohacker/vim-indented-paragraph')`
-- [vim-plug][vim-plug] - `Plug 'pianohacker/vim-indented-paragraph'`
+- [Vundle][vundle] - `Bundle 'pianohacker/vim-line-shifters'`
+- [NeoBundle][neobundle] - `NeoBundle 'pianohacker/vim-line-shifters'`
+- [dein][dein] - `call dein#add('pianohacker/vim-line-shifters')`
+- [vim-plug][vim-plug] - `Plug 'pianohacker/vim-line-shifters'`
 
-Then, add [kana/vim-textobj-user][vim-textobj-user] the same way.
-
-Finally, restart your editor, then install both plugins:
+Finally, restart your editor, then install the plugin:
 
 - [Vundle][vundle] - `:PluginInstall`
 - [NeoBundle][neobundle] - `:NeoBundleInstall`
 - [Dein][dein] - `:call dein#install()`
 - [vim-plug][vim-plug] - `:PlugInstall`
+
+## Acknowlegements
+
+The underlying code is largely copied from [Quickly adding and deleting empty lines on the Vim
+wiki](http://vim.wikia.com/wiki/Quickly_adding_and_deleting_empty_lines).
 
 [vundle]: https://github.com/VundleVim/Vundle.vim
 [neobundle]: https://github.com/Shougo/neobundle.vim

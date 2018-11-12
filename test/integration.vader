@@ -6,8 +6,8 @@ Given:
   jkl
 
 Before:
-  map ,j <Plug>(line-shifters-del-empty-below)
-  map ,K <Plug>(line-shifters-add-empty-above)
+  nmap ,j <Plug>(line-shifters-del-empty-below)
+  nmap ,K <Plug>(line-shifters-add-empty-above)
 
 Do:
   2G
